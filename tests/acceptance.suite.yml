@@ -14,6 +14,7 @@ modules:
         - Db
         - Laravel5:
             part: ORM
+            cleanup: false
             run_database_migrations: true
             run_database_seeder: true
             database_seeder_class: DatabaseSeeder

@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+use App\BlogPost;
 
 class HomeAcceptanceCest
 {
@@ -12,13 +14,26 @@ class HomeAcceptanceCest
     }
 
     // tests
-    public function tryToTest(AcceptanceTester $I)
+    public function when_there_are_no_posts_we_get_feedback(AcceptanceTester $I)
     {
         // No posts yet
         $I->amOnPage('/home');
 
         $I->see("Hmm, looks like there aren't any posts... that's, well... boring :(");
-        $I->wantTo('create a post');
-        $I->click(['link' => 'Login']);
+    }
+
+    public function when_there_is_a_post_we_see_it(AcceptanceTester $I)
+    {
+        $post = factory(BlogPost::class)->make([
+            'content' => 'Hello World!',
+            'title' => 'First blog post'
+        ]);
+        $user = User::where('email', 'test@test.com')->first();
+        $user->posts()->save($post);
+        $I->amOnPage('/home');
+        $I->see($post->content, ".content");
+        $I->see($post->title, ".title");
+        $I->see($post->user->name);
+        $I->see($post->created_at);
     }
 }

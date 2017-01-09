@@ -10,4 +10,8 @@ class BlogPost extends Model
     protected $fillable = [
         'title', 'content', 'public'
     ];
+
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
 }
