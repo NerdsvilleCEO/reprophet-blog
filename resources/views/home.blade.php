@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<bloglist></bloglist>
+@if (!Auth::guest())
+<bloglist :posts="{{$posts}}" :user="{{Auth::user()}}"></bloglist>
+@else
+<bloglist :posts="{{$posts}}"></bloglist>
+@endif
 @endsection

@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'REProphet Demo Blog') }}</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
@@ -36,7 +36,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'REProphet Demo Blog') }}
                     </a>
                 </div>
 
@@ -60,6 +60,7 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
+                                        <a href="/blog/create">Create a post</a>
                                         <a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -77,7 +78,33 @@
                 </div>
             </div>
         </nav>
-
+        <div class="col-md-8 col-md-offset-2">
+            <div id="flash-error" class="alert alert-danger hidden">
+                <button type="button" class="close alert-close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span id="flash-error-msg">
+                </span>
+            </div>
+            <div id="flash-success" class="alert alert-success hidden">
+                <button type="button" class="close alert-close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <span id="flash-success-msg">
+                </span>
+            </div>
+            @if ($errors->any())
+            <div class='flash alert-danger'>
+                <ul class="panel-body">
+                    @foreach ( $errors->all() as $error )
+                    <li>
+                        {{ $error }}
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+        </div>
         @yield('content')
     </div>
     @include('partials.footer')

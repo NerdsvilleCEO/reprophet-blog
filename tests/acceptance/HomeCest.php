@@ -2,6 +2,7 @@
 
 use App\User;
 use App\BlogPost;
+use \Codeception\Util\Locator;
 
 class HomeAcceptanceCest
 {
@@ -35,5 +36,14 @@ class HomeAcceptanceCest
         $I->see($post->title, ".title");
         $I->see($post->user->name);
         $I->see($post->created_at);
+    }
+
+    public function when_there_is_a_post_it_links_to_it(AcceptanceTester $I)
+    {
+        $post = factory(BlogPost::class)->make();
+        $user = User::where('email', 'test@test.com')->first();
+        $user->posts()->save($post);
+        $I->amOnPage("/home");
+        $I->see($post->title, Locator::href("/blog/" . $post->id));
     }
 }
